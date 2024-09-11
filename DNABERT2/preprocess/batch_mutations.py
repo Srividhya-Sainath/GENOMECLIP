@@ -10,7 +10,9 @@ def preprocess_data(data: pd.DataFrame, text_column: str, chunk_size: int) -> Di
         concatenated_chunks = []
         for i in range(0, len(texts), chunk_size):
             chunk = texts[i:i + chunk_size]
-            chunk_with_sep = [text + '[SEP]' for text in chunk]
+            # Replace '_' with '[PAD]' in each text before appending '[SEP]'
+            chunk_with_sep = [text.replace('_', '[PAD]') + '[SEP]' for text in chunk]
+            #chunk_with_sep = [text + '[SEP]' for text in chunk] # OLD VERSION
             concatenated_chunks.append(''.join(chunk_with_sep))
         processed_texts[patient_id] = concatenated_chunks
 
